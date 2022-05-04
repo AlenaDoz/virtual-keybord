@@ -1,0 +1,28 @@
+.klava {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  flex-wrap: wrap;
+  position: absolute;
+  background-color: #fafdf6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 300px;
+}
+
+.knopka {
+  width: 40px;
+  height: 40px;
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  transition: all 0.5s ease-out;
+}
+.knopka-active {
+  background-color: rgb(134, 108, 186);
+  color: rgb(126, 190, 213);
+}
