@@ -3,28 +3,161 @@ keyboard.classList.add("klava");
 const note = document.createElement("h1");
 note.classList.add("note");
 const keyCode = [
-  192, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187, 8, 9, 81, 87, 69, 82,
-  84, 89, 85, 73, 79, 80, 219, 221, 220, 46, 20, 65, 83, 68, 70, 71, 72, 74, 75,
-  76, 186, 222, 13, 16, 90, 88, 67, 86, 66, 78, 77, 188, 190, 191, 16, 17, 18,
-  91, 32, 93, 18, 37, 38, 40, 39,
+  "`",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "0",
+  "-",
+  "=",
+  "Backspace",
+  "Tab",
+  "q",
+  "w",
+  "e",
+  "r",
+  "t",
+  "y",
+  "u",
+  "i",
+  "o",
+  "p",
+  "[",
+  "]",
+  "\\",
+  "Delete",
+  "CapsLock",
+  "a",
+  "s",
+  "d",
+  "f",
+  "g",
+  "h",
+  "j",
+  "k",
+  "l",
+  ";",
+  "'",
+  "Enter",
+  "Shift",
+  "z",
+  "x",
+  "c",
+  "v",
+  "b",
+  "n",
+  "m",
+  ".",
+  ",",
+  "/",
+  "Shift",
+  "Control",
+  "Alt",
+  "Meta",
+  " ",
+  "Meta",
+  "Alt",
+  "ArrowLeft",
+  "ArrowUp",
+  "ArrowDown",
+  "ArrowRight",
 ];
 note.innerHTML =
   "This keyboard is created on Mac. Keyboard shortcut for switching languages is SHIFT + OPTION";
 document.body.append(keyboard);
 document.body.append(note);
 
-function createButton(number) {
+function createButton(key) {
   const btn = document.createElement("button");
+  btn.setAttribute("data-key", key);
   btn.classList.add("knopka");
-  btn.innerHTML = String.fromCharCode(number);
-  keyboard.append(btn);
+  btn.innerHTML = key;
+
   btn.addEventListener("mousedown", function () {
     btn.classList.add("knopka-active");
   });
   btn.addEventListener("mouseup", function () {
     btn.classList.remove("knopka-active");
   });
+
+  if (key === "Backspace") {
+    btn.classList.add("backspace");
+  }
+  if (key === "Tab") {
+    btn.classList.add("tab");
+  }
+  if (key === "Delete") {
+    btn.classList.add("delete");
+  }
+  if (key === "CapsLock") {
+    btn.classList.add("capslock");
+  }
+  if (key === "Enter") {
+    btn.classList.add("enter");
+  }
+  if (key === "Shift") {
+    btn.classList.add("shift");
+  }
+  if (key === " ") {
+    btn.classList.add("space");
+  }
+  if (key === "ArrowLeft") {
+    btn.classList.add("arrow-left");
+    btn.innerHTML = "&#9666;";
+  }
+  if (key === "ArrowRight") {
+    btn.classList.add("arrow-right");
+    btn.innerHTML = "&#9656;";
+  }
+  if (key === "ArrowUp") {
+    const arrows = document.createElement("div");
+    arrows.classList.add("arrows");
+    keyboard.append(arrows);
+    btn.classList.add("arrow-up");
+    btn.innerHTML = "&#9652;";
+    arrows.append(btn);
+    return;
+  }
+  if (key === "ArrowDown") {
+    btn.classList.add("arrow-down");
+    btn.innerHTML = "&#9662;";
+    document.querySelector(".arrows").append(btn);
+    return;
+  }
+  if (key === "Control") {
+    btn.classList.add("control");
+  }
+  if (key === "Meta") {
+    btn.classList.add("command");
+    btn.innerHTML = "Command";
+  }
+  if (key === "Alt") {
+    btn.classList.add("option");
+    btn.innerHTML = "⌥";
+  }
+
+  keyboard.append(btn);
 }
 for (let i = 0; i < keyCode.length; i++) {
   createButton(keyCode[i]);
 }
+document.addEventListener("keydown", function (event) {
+  document.querySelectorAll(".knopka").forEach(function (element) {
+    if (event.key === element.dataset.key) {
+      element.classList.add("knopka-active");
+    }
+  });
+});
+document.addEventListener("keyup", function (event) {
+  document.querySelectorAll(".knopka").forEach(function (element) {
+    if (event.key === element.dataset.key) {
+      element.classList.remove("knopka-active");
+    }
+  });
+});

@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   gap: 5px;
+  padding: 5px;
   flex-wrap: wrap;
   position: absolute;
   background-color: #fafdf6;
@@ -13,8 +14,8 @@
 }
 
 .knopka {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   color: white;
   background-color: black;
   border-radius: 5px;
@@ -25,4 +26,37 @@
 .knopka-active {
   background-color: rgb(134, 108, 186);
   color: rgb(126, 190, 213);
+}
+.backspace {
+  width: 120px;
+}
+.tab,
+.delete {
+  width: 60px;
+}
+.capslock,
+.enter {
+  width: 100px;
+}
+
+.shift {
+  width: 125px;
+}
+.space {
+  width: 300px;
+}
+.arrow-up,
+.arrow-down {
+  height: 20px;
+}
+.arrows {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.control,
+.command {
+  width: 75px;
 }
