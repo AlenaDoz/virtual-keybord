@@ -53,8 +53,8 @@ const keyCode = [
   "b",
   "n",
   "m",
-  ".",
   ",",
+  ".",
   "/",
   "Shift",
   "Control",
@@ -68,6 +68,11 @@ const keyCode = [
   "ArrowDown",
   "ArrowRight",
 ];
+
+const enLittle = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
+const enCapital = '~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?';
+const enLittleArray = enLittle.split("");
+const enCapitalArray = enCapital.split("");
 note.innerHTML =
   "This keyboard is created on Mac. Keyboard shortcut for switching languages is SHIFT + OPTION";
 document.body.append(keyboard);
@@ -77,7 +82,6 @@ function createButton(key) {
   const btn = document.createElement("button");
   btn.setAttribute("data-key", key);
   btn.classList.add("knopka");
-  btn.innerHTML = key;
 
   btn.addEventListener("mousedown", function () {
     btn.classList.add("knopka-active");
@@ -85,6 +89,7 @@ function createButton(key) {
   btn.addEventListener("mouseup", function () {
     btn.classList.remove("knopka-active");
   });
+  btn.innerHTML = key;
 
   if (key === "Backspace") {
     btn.classList.add("backspace");
@@ -147,14 +152,36 @@ function createButton(key) {
 for (let i = 0; i < keyCode.length; i++) {
   createButton(keyCode[i]);
 }
+
 document.addEventListener("keydown", function (event) {
+  if (event.key === "Shift") {
+    document.querySelectorAll(".knopka").forEach(function (element) {
+      if (enLittleArray.indexOf(element.dataset.key) > -1) {
+        element.innerHTML =
+          enCapitalArray[enLittleArray.indexOf(element.dataset.key)];
+        element.dataset.key =
+          enCapitalArray[enLittleArray.indexOf(element.dataset.key)];
+      }
+    });
+  }
   document.querySelectorAll(".knopka").forEach(function (element) {
     if (event.key === element.dataset.key) {
       element.classList.add("knopka-active");
     }
   });
 });
+
 document.addEventListener("keyup", function (event) {
+  if (event.key === "Shift") {
+    document.querySelectorAll(".knopka").forEach(function (element) {
+      if (enCapitalArray.indexOf(element.dataset.key) > -1) {
+        element.innerHTML =
+          enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+        element.dataset.key =
+          enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+      }
+    });
+  }
   document.querySelectorAll(".knopka").forEach(function (element) {
     if (event.key === element.dataset.key) {
       element.classList.remove("knopka-active");
