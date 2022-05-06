@@ -234,6 +234,18 @@ document.addEventListener("keydown", function (event) {
       }
     });
   }
+  if (event.key.length === 1) {
+    event.preventDefault();
+    const input = document.querySelector(".caps-check").innerHTML === "q"?event.key.toLowerCase():event.key.toUpperCase()
+    const textarea = document.querySelector(".textarea");
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, input, ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start + 1;
+    textarea.selectionEnd = start + 1;
+  }
   if (event.key === "CapsLock") {
     console.log(event.key);
     if (
@@ -254,6 +266,7 @@ document.addEventListener("keydown", function (event) {
     if (event.key === element.dataset.key) {
       element.classList.add("knopka-active");
     }
+
   });
 });
 
@@ -314,6 +327,31 @@ document.querySelector(".klava").addEventListener("click", function (event) {
       }
       return;
     }
+    if (event.target.dataset.key === "CapsLock") {
+      if (enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
+        event.target.classList.add("knopka-active");
+        document.querySelectorAll(".knopka").forEach(function (element) {
+          if (enLittleLetters.indexOf(element.dataset.key) > -1) {
+            element.innerHTML =
+              enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+            element.dataset.key =
+              enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+          }
+        });
+      } else if (enCapitalLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
+        event.target.classList.remove("knopka-active");
+        document.querySelectorAll(".knopka").forEach(function (element) {
+          if (enCapitalLetters.indexOf(element.dataset.key) > -1) {
+            element.innerHTML =
+              enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
+            element.dataset.key =
+              enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
+          }
+        });
+      }
+      return;
+    }
+
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
