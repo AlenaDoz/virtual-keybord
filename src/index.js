@@ -397,6 +397,51 @@ if (event.target.dataset.key === "Delete") {
   
     return;
 }
+if (event.target.dataset.key === "ArrowUp") {
+  const textarea = document.querySelector(".textarea");
+  const start = textarea.selectionEnd;
+  const val1 = textarea.value.split("").slice(start);
+  const val2 = textarea.value.split("").slice(0, start);
+  const val = [...val2, "▴", ...val1].join("");
+  textarea.value = val;
+  textarea.selectionStart = start + 1;
+  textarea.selectionEnd = start + 1;
+  return;
+}
+if (event.target.dataset.key === "ArrowDown") {
+  const textarea = document.querySelector(".textarea");
+  const start = textarea.selectionEnd;
+  const val1 = textarea.value.split("").slice(start);
+  const val2 = textarea.value.split("").slice(0, start);
+  const val = [...val2, "▾", ...val1].join("");
+  textarea.value = val;
+  textarea.selectionStart = start + 1;
+  textarea.selectionEnd = start + 1;
+  return;
+}
+if (event.target.dataset.key === "ArrowLeft") {
+  const textarea = document.querySelector(".textarea");
+  const start = textarea.selectionEnd;
+  const val1 = textarea.value.split("").slice(start);
+  const val2 = textarea.value.split("").slice(0, start);
+  const val = [...val2, "◂", ...val1].join("");
+  textarea.value = val;
+  textarea.selectionStart = start + 1;
+  textarea.selectionEnd = start + 1;
+  return;
+}
+if (event.target.dataset.key === "ArrowRight") {
+  const textarea = document.querySelector(".textarea");
+  const start = textarea.selectionEnd;
+  const val1 = textarea.value.split("").slice(start);
+  const val2 = textarea.value.split("").slice(0, start);
+  const val = [...val2, "▸", ...val1].join("");
+  textarea.value = val;
+  textarea.selectionStart = start + 1;
+  textarea.selectionEnd = start + 1;
+  return;
+}
+
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
