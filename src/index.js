@@ -171,7 +171,6 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "Tab") {
     event.preventDefault();
     const textarea = document.querySelector(".textarea");
-    console.log(textarea.value);
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
@@ -179,8 +178,52 @@ document.addEventListener("keydown", function (event) {
     textarea.value = val;
     textarea.selectionStart = start + 4;
     textarea.selectionEnd = start + 4;
-    console.log(val);
   }
+  if (event.key === "ArrowUp") {
+    event.preventDefault();
+    const textarea = document.querySelector(".textarea");
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, "▴", ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start + 1;
+    textarea.selectionEnd = start + 1;
+  }
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    const textarea = document.querySelector(".textarea");
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, "▾", ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start + 1;
+    textarea.selectionEnd = start + 1;
+  }
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    const textarea = document.querySelector(".textarea");
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, "◂", ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start + 1;
+    textarea.selectionEnd = start + 1;
+  }
+  if (event.key === "ArrowRight") {
+    event.preventDefault();
+    const textarea = document.querySelector(".textarea");
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, "▸", ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start + 1;
+    textarea.selectionEnd = start + 1;
+  }
+
   if (event.key === "Shift") {
     document.querySelectorAll(".knopka").forEach(function (element) {
       if (enLittleArray.indexOf(element.dataset.key) > -1) {
