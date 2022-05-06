@@ -1,14 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  align-items: center;
+}
+
 .klava {
   display: flex;
   justify-content: space-between;
   gap: 5px;
   padding: 5px;
   flex-wrap: wrap;
-  position: absolute;
   background-color: #fafdf6;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 800px;
   height: 300px;
 }
@@ -59,4 +67,9 @@
 .control,
 .command {
   width: 75px;
+}
+
+.textarea {
+  height: 150px;
+  width: 500px;
 }

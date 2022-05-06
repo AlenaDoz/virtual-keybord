@@ -1,3 +1,6 @@
+const container = document.createElement("div");
+container.classList.add("container");
+document.body.append(container);
 const keyboard = document.createElement("div");
 keyboard.classList.add("klava");
 const note = document.createElement("h1");
@@ -68,6 +71,9 @@ const keyCode = [
   "ArrowDown",
   "ArrowRight",
 ];
+const textarea = document.createElement("textarea");
+textarea.classList.add("textarea");
+container.append(textarea);
 
 const enLittle = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
 const enCapital = '~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?';
@@ -75,8 +81,8 @@ const enLittleArray = enLittle.split("");
 const enCapitalArray = enCapital.split("");
 note.innerHTML =
   "This keyboard is created on Mac. Keyboard shortcut for switching languages is SHIFT + OPTION";
-document.body.append(keyboard);
-document.body.append(note);
+container.append(keyboard);
+container.append(note);
 
 const enLittleLetter = "qwertyuiopasdfghjklzxcvbnm";
 const enCapitalLetter = enLittleLetter.toUpperCase();
@@ -162,6 +168,19 @@ for (let i = 0; i < keyCode.length; i++) {
 }
 
 document.addEventListener("keydown", function (event) {
+  if (event.key === "Tab") {
+    event.preventDefault();
+    const textarea = document.querySelector(".textarea");
+    console.log(textarea.value);
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, "    ", ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start + 4;
+    textarea.selectionEnd = start + 4;
+    console.log(val);
+  }
   if (event.key === "Shift") {
     document.querySelectorAll(".knopka").forEach(function (element) {
       if (enLittleArray.indexOf(element.dataset.key) > -1) {
