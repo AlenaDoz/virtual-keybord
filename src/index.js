@@ -351,6 +351,29 @@ document.querySelector(".klava").addEventListener("click", function (event) {
       }
       return;
     }
+if (event.target.dataset.key === "Backspace") {
+  if (textarea.selectionStart === textarea.selectionEnd) {
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start);
+    const val2 = textarea.value.split("").slice(0, start - 1);
+    const val = [...val2, ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start - 1;
+    textarea.selectionEnd = start - 1;
+  } 
+  else {
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(end);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start;
+    textarea.selectionEnd = start;
+  }
+  
+    return;
+}
 
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
