@@ -78,6 +78,11 @@ note.innerHTML =
 document.body.append(keyboard);
 document.body.append(note);
 
+const enLittleLetter = "qwertyuiopasdfghjklzxcvbnm";
+const enCapitalLetter = enLittleLetter.toUpperCase();
+const enLittleLetters = enLittleLetter.split("");
+const enCapitalLetters = enCapitalLetter.split("");
+
 function createButton(key) {
   const btn = document.createElement("button");
   btn.setAttribute("data-key", key);
@@ -129,6 +134,9 @@ function createButton(key) {
     arrows.append(btn);
     return;
   }
+  if (key === "q") {
+    btn.classList.add("caps-check");
+  }
   if (key === "ArrowDown") {
     btn.classList.add("arrow-down");
     btn.innerHTML = "&#9662;";
@@ -164,6 +172,22 @@ document.addEventListener("keydown", function (event) {
       }
     });
   }
+  if (event.key === "CapsLock") {
+    console.log(event.key);
+    if (
+      enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) >
+      -1
+    ) {
+      document.querySelectorAll(".knopka").forEach(function (element) {
+        if (enLittleLetters.indexOf(element.dataset.key) > -1) {
+          element.innerHTML =
+            enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+          element.dataset.key =
+            enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+        }
+      });
+    }
+  }
   document.querySelectorAll(".knopka").forEach(function (element) {
     if (event.key === element.dataset.key) {
       element.classList.add("knopka-active");
@@ -179,6 +203,16 @@ document.addEventListener("keyup", function (event) {
           enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
         element.dataset.key =
           enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+      }
+    });
+  }
+  if (event.key === "CapsLock") {
+    document.querySelectorAll(".knopka").forEach(function (element) {
+      if (enCapitalLetters.indexOf(element.dataset.key) > -1) {
+        element.innerHTML =
+          enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
+        element.dataset.key =
+          enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
       }
     });
   }
