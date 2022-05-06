@@ -284,3 +284,16 @@ document.addEventListener("keyup", function (event) {
     }
   });
 });
+document.querySelector(".klava").addEventListener("click", function (event) {
+  const textarea = document.querySelector(".textarea");
+  if (event.target.classList.contains("knopka")) {
+    textarea.focus();
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, event.target.dataset.key, ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start + 1;
+    textarea.selectionEnd = start + 1;
+  }
+});
