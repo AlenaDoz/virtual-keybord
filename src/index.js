@@ -374,7 +374,29 @@ if (event.target.dataset.key === "Backspace") {
   
     return;
 }
-
+if (event.target.dataset.key === "Delete") {
+  if (textarea.selectionStart === textarea.selectionEnd) {
+    const start = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(start + 1);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start;
+    textarea.selectionEnd = start;
+  } 
+  else {
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const val1 = textarea.value.split("").slice(end);
+    const val2 = textarea.value.split("").slice(0, start);
+    const val = [...val2, ...val1].join("");
+    textarea.value = val;
+    textarea.selectionStart = start;
+    textarea.selectionEnd = start;
+  }
+  
+    return;
+}
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
