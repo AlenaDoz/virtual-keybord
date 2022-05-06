@@ -441,7 +441,17 @@ if (event.target.dataset.key === "ArrowRight") {
   textarea.selectionEnd = start + 1;
   return;
 }
-
+if (event.target.dataset.key === "Tab") {
+  const textarea = document.querySelector(".textarea");
+  const start = textarea.selectionEnd;
+  const val1 = textarea.value.split("").slice(start);
+  const val2 = textarea.value.split("").slice(0, start);
+  const val = [...val2, "    ", ...val1].join("");
+  textarea.value = val;
+  textarea.selectionStart = start + 4;
+  textarea.selectionEnd = start + 4;
+  return;
+}
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
