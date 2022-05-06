@@ -288,6 +288,32 @@ document.querySelector(".klava").addEventListener("click", function (event) {
   const textarea = document.querySelector(".textarea");
   if (event.target.classList.contains("knopka")) {
     textarea.focus();
+
+    if (event.target.dataset.key === "Shift") {
+      if (!event.target.classList.contains("shift-active")) {
+        event.target.classList.add("shift-active");
+
+        document.querySelectorAll(".knopka").forEach(function (element) {
+          if (enLittleArray.indexOf(element.dataset.key) > -1) {
+            element.innerHTML =
+              enCapitalArray[enLittleArray.indexOf(element.dataset.key)];
+            element.dataset.key =
+              enCapitalArray[enLittleArray.indexOf(element.dataset.key)];
+          }
+        });
+      } else {
+        document.querySelector(".shift").classList.remove("shift-active");
+        document.querySelectorAll(".knopka").forEach(function (element) {
+          if (enCapitalArray.indexOf(element.dataset.key) > -1) {
+            element.innerHTML =
+              enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+            element.dataset.key =
+              enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+          }
+        });
+      }
+      return;
+    }
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
@@ -295,5 +321,16 @@ document.querySelector(".klava").addEventListener("click", function (event) {
     textarea.value = val;
     textarea.selectionStart = start + 1;
     textarea.selectionEnd = start + 1;
+    if (document.querySelector(".shift-active")) {
+      document.querySelector(".shift").classList.remove("shift-active");
+      document.querySelectorAll(".knopka").forEach(function (element) {
+        if (enCapitalArray.indexOf(element.dataset.key) > -1) {
+          element.innerHTML =
+            enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+          element.dataset.key =
+            enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+        }
+      });
+    }
   }
 });

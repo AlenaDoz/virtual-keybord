@@ -31,10 +31,12 @@
   border: none;
   transition: all 0.5s ease-out;
 }
-.knopka-active {
+.knopka-active,
+.shift-active {
   background-color: rgb(134, 108, 186);
   color: rgb(126, 190, 213);
 }
+
 .backspace {
   width: 120px;
 }
