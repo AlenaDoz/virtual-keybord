@@ -74,13 +74,18 @@ const keyCode = [
 const textarea = document.createElement("textarea");
 textarea.classList.add("textarea");
 container.append(textarea);
+localStorage.setItem("lang", "EN");
+const ruLittle = "]1234567890-=йцукенгшщзхъёфывапролджэячсмитьбю/ ";
+const ruCapital = "[!\"№%:,.;()_+ЙЦУКЕНГШЩЗХЪЁФЫВАПРОЛДЖЭЯЧСМИТЬБЮ? ";
+const ruLittleArray = ruLittle.split("");
+const ruCapitalArray = ruCapital.split("");
 
-const enLittle = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
-const enCapital = '~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>?';
+const enLittle = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./ ";
+const enCapital = '~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>? ';
 const enLittleArray = enLittle.split("");
 const enCapitalArray = enCapital.split("");
 note.innerHTML =
-  "This keyboard is created on Mac. Keyboard shortcut for switching languages is SHIFT + OPTION";
+  "This keyboard is created on Mac. Keyboard shortcut for switching languages is SHIFT + OPTION.";
 container.append(keyboard);
 container.append(note);
 
@@ -88,7 +93,19 @@ const enLittleLetter = "qwertyuiopasdfghjklzxcvbnm";
 const enCapitalLetter = enLittleLetter.toUpperCase();
 const enLittleLetters = enLittleLetter.split("");
 const enCapitalLetters = enCapitalLetter.split("");
+const ruLittleLetter = "йцукенгшщзхъёфывапролджэячсмитьбю";
+const ruCapitalLetter = ruLittleLetter.toUpperCase();
+const ruLittleLetters = ruLittleLetter.split("");
+const ruCapitalLetters = ruCapitalLetter.split("");
 
+function pressShift(element, firstarray, secondarray) {
+  if (firstarray.indexOf(element.dataset.key) > -1) {
+    element.innerHTML =
+    secondarray[firstarray.indexOf(element.dataset.key)];
+    element.dataset.key =
+    secondarray[firstarray.indexOf(element.dataset.key)];
+  }
+}
 function createButton(key) {
   const btn = document.createElement("button");
   btn.setAttribute("data-key", key);
@@ -166,7 +183,7 @@ function createButton(key) {
 for (let i = 0; i < keyCode.length; i++) {
   createButton(keyCode[i]);
 }
-
+let pressed = new Set()
 document.addEventListener("keydown", function (event) {
   if (event.key === "Tab") {
     event.preventDefault();
@@ -179,6 +196,7 @@ document.addEventListener("keydown", function (event) {
     textarea.selectionStart = start + 4;
     textarea.selectionEnd = start + 4;
   }
+
   if (event.key === "ArrowUp") {
     event.preventDefault();
     const textarea = document.querySelector(".textarea");
@@ -225,18 +243,23 @@ document.addEventListener("keydown", function (event) {
   }
 
   if (event.key === "Shift") {
+    pressed.add("Shift");
+    document.querySelector(".shift").classList.add("shift-active");
+    if (localStorage.getItem("lang") === "EN") {
     document.querySelectorAll(".knopka").forEach(function (element) {
-      if (enLittleArray.indexOf(element.dataset.key) > -1) {
-        element.innerHTML =
-          enCapitalArray[enLittleArray.indexOf(element.dataset.key)];
-        element.dataset.key =
-          enCapitalArray[enLittleArray.indexOf(element.dataset.key)];
-      }
+      pressShift(element, enLittleArray, enCapitalArray);
     });
+    }
+    if (localStorage.getItem("lang") === "RU") {
+      document.querySelectorAll(".knopka").forEach(function (element) {
+        pressShift(element, ruLittleArray, ruCapitalArray);
+      });
+      }
   }
   if (event.key.length === 1) {
     event.preventDefault();
-    const input = document.querySelector(".caps-check").innerHTML === "q"?event.key.toLowerCase():event.key.toUpperCase()
+    const inputText = document.querySelector(`.knopka[data-key=${event.key}]`).innerHTML;
+    const input = (document.querySelector(".caps-check").innerHTML === "q"||document.querySelector(".caps-check").innerHTML === "й")?inputText.toLowerCase():inputText.toUpperCase();
     const textarea = document.querySelector(".textarea");
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
@@ -268,18 +291,54 @@ document.addEventListener("keydown", function (event) {
     }
 
   });
+  if (event.key === "Alt") {
+    pressed.add("Alt");
+  }
+  if (pressed.has("Shift")&&pressed.has("Alt")) {
+    function changeLang(symbol, firstlang, secondlang) {
+      if (document.querySelector(".caps-check").dataset.key === symbol) {
+        document.querySelectorAll(".knopka").forEach(function(element) {
+          if (element.dataset.key.length === 1) {
+            element.dataset.key = secondlang[firstlang.indexOf(element.dataset.key)];
+            element.innerHTML = element.dataset.key;
+          }
+        })
+      }
+    } 
+    if (localStorage.getItem("lang") === "EN"){
+      localStorage.setItem("lang", "RU");
+      changeLang("q");
+      changeLang("Q", enCapitalArray, ruLittleArray);
+    }
+    else {
+      localStorage.setItem("lang", "EN");
+      changeLang("й");
+      changeLang("Й", ruCapitalArray, enLittleArray);
+    }
+      }
+
+  if (document.querySelector(".shift-active")) {
+    document.querySelector(".shift").classList.remove("shift-active");
+  }
+  
 });
 
 document.addEventListener("keyup", function (event) {
   if (event.key === "Shift") {
-    document.querySelectorAll(".knopka").forEach(function (element) {
-      if (enCapitalArray.indexOf(element.dataset.key) > -1) {
-        element.innerHTML =
-          enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
-        element.dataset.key =
-          enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+    if (localStorage.getItem("lang") === "EN") {
+      document.querySelectorAll(".knopka").forEach(function (element) {
+        pressShift(element, enCapitalArray, enLittleArray);
+      });
       }
-    });
+      if (localStorage.getItem("lang") === "RU") {
+        document.querySelectorAll(".knopka").forEach(function (element) {
+          pressShift(element, ruCapitalArray, ruLittleArray);
+        });
+        }
+    pressed.delete("Shift");
+  }
+  if (event.key === "Alt") {
+    pressed.delete("Alt");
   }
   if (event.key === "CapsLock") {
     document.querySelectorAll(".knopka").forEach(function (element) {
@@ -307,22 +366,12 @@ document.querySelector(".klava").addEventListener("click", function (event) {
         event.target.classList.add("shift-active");
 
         document.querySelectorAll(".knopka").forEach(function (element) {
-          if (enLittleArray.indexOf(element.dataset.key) > -1) {
-            element.innerHTML =
-              enCapitalArray[enLittleArray.indexOf(element.dataset.key)];
-            element.dataset.key =
-              enCapitalArray[enLittleArray.indexOf(element.dataset.key)];
-          }
+          pressShift(element, enLittleArray, enCapitalArray);
         });
       } else {
         document.querySelector(".shift").classList.remove("shift-active");
         document.querySelectorAll(".knopka").forEach(function (element) {
-          if (enCapitalArray.indexOf(element.dataset.key) > -1) {
-            element.innerHTML =
-              enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
-            element.dataset.key =
-              enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
-          }
+          pressShift(element, enCapitalArray, enLittleArray);
         });
       }
       return;
@@ -452,6 +501,10 @@ if (event.target.dataset.key === "Tab") {
   textarea.selectionEnd = start + 4;
   return;
 }
+if (event.target.dataset.key === "Alt") return;
+if (event.target.dataset.key === "Control") return;
+
+
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
