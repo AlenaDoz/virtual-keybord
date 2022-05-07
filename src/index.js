@@ -258,31 +258,53 @@ document.addEventListener("keydown", function (event) {
   }
   if (event.key.length === 1) {
     event.preventDefault();
-    const inputText = document.querySelector(`.knopka[data-key=${event.key}]`).innerHTML;
-    const input = (document.querySelector(".caps-check").innerHTML === "q"||document.querySelector(".caps-check").innerHTML === "й")?inputText.toLowerCase():inputText.toUpperCase();
+    let input = null;
+    if ( localStorage.getItem("lang") === "RU") {
+      if (document.querySelector(".caps-check").dataset.key === "Й") {
+        input = ruCapitalArray[enCapitalArray.indexOf(event.key)];
+        console.log(event.key);
+        if (!input) {
+          input = ruCapitalArray[enLittleArray.indexOf(event.key)];
+        }
+      }
+      else {
+        input = ruLittleArray[enLittleArray.indexOf(event.key)];
+      }
+    }
+
     const textarea = document.querySelector(".textarea");
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
-    const val = [...val2, input, ...val1].join("");
+    const val = [...val2, input?input:event.key, ...val1].join("");
     textarea.value = val;
     textarea.selectionStart = start + 1;
     textarea.selectionEnd = start + 1;
   }
   if (event.key === "CapsLock") {
-    console.log(event.key);
-    if (
-      enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) >
-      -1
-    ) {
-      document.querySelectorAll(".knopka").forEach(function (element) {
-        if (enLittleLetters.indexOf(element.dataset.key) > -1) {
-          element.innerHTML =
-            enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
-          element.dataset.key =
-            enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
-        }
-      });
+    if (localStorage.getItem("lang") === "RU") {
+      if ( ruLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
+        document.querySelectorAll(".knopka").forEach(function (element) {
+          if (ruLittleLetters.indexOf(element.dataset.key) > -1) {
+            element.innerHTML =
+              ruCapitalLetters[ruLittleLetters.indexOf(element.dataset.key)];
+            element.dataset.key =
+              ruCapitalLetters[ruLittleLetters.indexOf(element.dataset.key)];
+          }
+        });
+      }
+    }
+    else {
+      if ( enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
+        document.querySelectorAll(".knopka").forEach(function (element) {
+          if (enLittleLetters.indexOf(element.dataset.key) > -1) {
+            element.innerHTML =
+              enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+            element.dataset.key =
+              enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+          }
+        });
+      }
     }
   }
   document.querySelectorAll(".knopka").forEach(function (element) {
