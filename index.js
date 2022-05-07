@@ -171,9 +171,9 @@ const ruCapitalLetters = ruCapitalLetter.split("");
 function pressShift(element, firstarray, secondarray) {
   if (firstarray.indexOf(element.dataset.key) > -1) {
     element.innerHTML =
-    secondarray[firstarray.indexOf(element.dataset.key)];
+      secondarray[firstarray.indexOf(element.dataset.key)];
     element.dataset.key =
-    secondarray[firstarray.indexOf(element.dataset.key)];
+      secondarray[firstarray.indexOf(element.dataset.key)];
   }
 }
 function createButton(key) {
@@ -227,7 +227,7 @@ function createButton(key) {
     arrows.append(btn);
     return;
   }
-  if (key === "q"||key === "й") {
+  if (key === "q" || key === "й") {
     btn.classList.add("caps-check");
   }
 
@@ -252,7 +252,7 @@ function createButton(key) {
   keyboard.append(btn);
 }
 let array;
-if (localStorage.getItem("lang") ==="EN") {
+if (localStorage.getItem("lang") === "EN") {
   array = [...keyCode]
 }
 else {
@@ -324,20 +324,20 @@ document.addEventListener("keydown", function (event) {
     pressed.add("Shift");
     document.querySelector(".shift").classList.add("shift-active");
     if (localStorage.getItem("lang") === "EN") {
-    document.querySelectorAll(".knopka").forEach(function (element) {
-      pressShift(element, enLittleArray, enCapitalArray);
-    });
+      document.querySelectorAll(".knopka").forEach(function (element) {
+        pressShift(element, enLittleArray, enCapitalArray);
+      });
     }
     if (localStorage.getItem("lang") === "RU") {
       document.querySelectorAll(".knopka").forEach(function (element) {
         pressShift(element, ruLittleArray, ruCapitalArray);
       });
-      }
+    }
   }
   if (event.key.length === 1) {
     event.preventDefault();
     let input = null;
-    if ( localStorage.getItem("lang") === "RU") {
+    if (localStorage.getItem("lang") === "RU") {
       if (document.querySelector(".caps-check").dataset.key === "Й") {
         input = ruCapitalArray[enCapitalArray.indexOf(event.key)];
         console.log(event.key);
@@ -354,14 +354,14 @@ document.addEventListener("keydown", function (event) {
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
-    const val = [...val2, input?input:event.key, ...val1].join("");
+    const val = [...val2, input ? input : event.key, ...val1].join("");
     textarea.value = val;
     textarea.selectionStart = start + 1;
     textarea.selectionEnd = start + 1;
   }
   if (event.key === "CapsLock") {
     if (localStorage.getItem("lang") === "RU") {
-      if ( ruLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
+      if (ruLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
         document.querySelectorAll(".knopka").forEach(function (element) {
           if (ruLittleLetters.indexOf(element.dataset.key) > -1) {
             element.innerHTML =
@@ -373,7 +373,7 @@ document.addEventListener("keydown", function (event) {
       }
     }
     else {
-      if ( enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
+      if (enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
         document.querySelectorAll(".knopka").forEach(function (element) {
           if (enLittleLetters.indexOf(element.dataset.key) > -1) {
             element.innerHTML =
@@ -394,18 +394,18 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "Alt") {
     pressed.add("Alt");
   }
-  if (pressed.has("Shift")&&pressed.has("Alt")) {
+  if (pressed.has("Shift") && pressed.has("Alt")) {
     function changeLang(symbol, firstlang, secondlang) {
       if (document.querySelector(".caps-check").dataset.key === symbol) {
-        document.querySelectorAll(".knopka").forEach(function(element) {
+        document.querySelectorAll(".knopka").forEach(function (element) {
           if (element.dataset.key.length === 1) {
             element.dataset.key = secondlang[firstlang.indexOf(element.dataset.key)];
             element.innerHTML = element.dataset.key;
           }
         })
       }
-    } 
-    if (localStorage.getItem("lang") === "EN"){
+    }
+    if (localStorage.getItem("lang") === "EN") {
       localStorage.setItem("lang", "RU");
       changeLang("q");
       changeLang("Q", enCapitalArray, ruLittleArray);
@@ -415,12 +415,12 @@ document.addEventListener("keydown", function (event) {
       changeLang("й");
       changeLang("Й", ruCapitalArray, enLittleArray);
     }
-      }
+  }
 
   if (document.querySelector(".shift-active")) {
     document.querySelector(".shift").classList.remove("shift-active");
   }
-  
+
 });
 
 document.addEventListener("keyup", function (event) {
@@ -429,12 +429,12 @@ document.addEventListener("keyup", function (event) {
       document.querySelectorAll(".knopka").forEach(function (element) {
         pressShift(element, enCapitalArray, enLittleArray);
       });
-      }
-      if (localStorage.getItem("lang") === "RU") {
-        document.querySelectorAll(".knopka").forEach(function (element) {
-          pressShift(element, ruCapitalArray, ruLittleArray);
-        });
-        }
+    }
+    if (localStorage.getItem("lang") === "RU") {
+      document.querySelectorAll(".knopka").forEach(function (element) {
+        pressShift(element, ruCapitalArray, ruLittleArray);
+      });
+    }
     pressed.delete("Shift");
   }
   if (event.key === "Alt") {
@@ -462,19 +462,40 @@ document.querySelector(".klava").addEventListener("click", function (event) {
     textarea.focus();
 
     if (event.target.dataset.key === "Shift") {
-      if (!event.target.classList.contains("shift-active")) {
-        event.target.classList.add("shift-active");
+      if (localStorage.getItem("lang") === "EN") {
+        if (!event.target.classList.contains("shift-active")) {
+          event.target.classList.add("shift-active");
 
-        document.querySelectorAll(".knopka").forEach(function (element) {
-          pressShift(element, enLittleArray, enCapitalArray);
-        });
-      } else {
-        document.querySelector(".shift").classList.remove("shift-active");
-        document.querySelectorAll(".knopka").forEach(function (element) {
-          pressShift(element, enCapitalArray, enLittleArray);
-        });
+          document.querySelectorAll(".knopka").forEach(function (element) {
+            pressShift(element, enLittleArray, enCapitalArray);
+          });
+        } else {
+          document.querySelectorAll(".shift").forEach(function (element) {
+            element.classList.remove("shift-active");
+          });
+          document.querySelectorAll(".knopka").forEach(function (element) {
+            pressShift(element, enCapitalArray, enLittleArray);
+          });
+        }
+        return;
       }
-      return;
+      else {
+        if (!event.target.classList.contains("shift-active")) {
+          event.target.classList.add("shift-active");
+
+          document.querySelectorAll(".knopka").forEach(function (element) {
+            pressShift(element, ruLittleArray, ruCapitalArray);
+          });
+        } else {
+          document.querySelectorAll(".shift").forEach(function (element) {
+            element.classList.remove("shift-active");
+          });
+          document.querySelectorAll(".knopka").forEach(function (element) {
+            pressShift(element, ruCapitalArray, ruLittleArray);
+          });
+        }
+        return;
+      }
     }
     if (event.target.dataset.key === "CapsLock") {
       if (enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
@@ -500,110 +521,121 @@ document.querySelector(".klava").addEventListener("click", function (event) {
       }
       return;
     }
-if (event.target.dataset.key === "Backspace") {
-  if (textarea.selectionStart === textarea.selectionEnd) {
-    const start = textarea.selectionEnd;
-    const val1 = textarea.value.split("").slice(start);
-    const val2 = textarea.value.split("").slice(0, start - 1);
-    const val = [...val2, ...val1].join("");
-    textarea.value = val;
-    textarea.selectionStart = start - 1;
-    textarea.selectionEnd = start - 1;
-  } 
-  else {
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const val1 = textarea.value.split("").slice(end);
-    const val2 = textarea.value.split("").slice(0, start);
-    const val = [...val2, ...val1].join("");
-    textarea.value = val;
-    textarea.selectionStart = start;
-    textarea.selectionEnd = start;
-  }
-  
-    return;
-}
-if (event.target.dataset.key === "Delete") {
-  if (textarea.selectionStart === textarea.selectionEnd) {
-    const start = textarea.selectionEnd;
-    const val1 = textarea.value.split("").slice(start + 1);
-    const val2 = textarea.value.split("").slice(0, start);
-    const val = [...val2, ...val1].join("");
-    textarea.value = val;
-    textarea.selectionStart = start;
-    textarea.selectionEnd = start;
-  } 
-  else {
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const val1 = textarea.value.split("").slice(end);
-    const val2 = textarea.value.split("").slice(0, start);
-    const val = [...val2, ...val1].join("");
-    textarea.value = val;
-    textarea.selectionStart = start;
-    textarea.selectionEnd = start;
-  }
-  
-    return;
-}
-if (event.target.dataset.key === "ArrowUp") {
-  const textarea = document.querySelector(".textarea");
-  const start = textarea.selectionEnd;
-  const val1 = textarea.value.split("").slice(start);
-  const val2 = textarea.value.split("").slice(0, start);
-  const val = [...val2, "▴", ...val1].join("");
-  textarea.value = val;
-  textarea.selectionStart = start + 1;
-  textarea.selectionEnd = start + 1;
-  return;
-}
-if (event.target.dataset.key === "ArrowDown") {
-  const textarea = document.querySelector(".textarea");
-  const start = textarea.selectionEnd;
-  const val1 = textarea.value.split("").slice(start);
-  const val2 = textarea.value.split("").slice(0, start);
-  const val = [...val2, "▾", ...val1].join("");
-  textarea.value = val;
-  textarea.selectionStart = start + 1;
-  textarea.selectionEnd = start + 1;
-  return;
-}
-if (event.target.dataset.key === "ArrowLeft") {
-  const textarea = document.querySelector(".textarea");
-  const start = textarea.selectionEnd;
-  const val1 = textarea.value.split("").slice(start);
-  const val2 = textarea.value.split("").slice(0, start);
-  const val = [...val2, "◂", ...val1].join("");
-  textarea.value = val;
-  textarea.selectionStart = start + 1;
-  textarea.selectionEnd = start + 1;
-  return;
-}
-if (event.target.dataset.key === "ArrowRight") {
-  const textarea = document.querySelector(".textarea");
-  const start = textarea.selectionEnd;
-  const val1 = textarea.value.split("").slice(start);
-  const val2 = textarea.value.split("").slice(0, start);
-  const val = [...val2, "▸", ...val1].join("");
-  textarea.value = val;
-  textarea.selectionStart = start + 1;
-  textarea.selectionEnd = start + 1;
-  return;
-}
-if (event.target.dataset.key === "Tab") {
-  const textarea = document.querySelector(".textarea");
-  const start = textarea.selectionEnd;
-  const val1 = textarea.value.split("").slice(start);
-  const val2 = textarea.value.split("").slice(0, start);
-  const val = [...val2, "    ", ...val1].join("");
-  textarea.value = val;
-  textarea.selectionStart = start + 4;
-  textarea.selectionEnd = start + 4;
-  return;
-}
-if (event.target.dataset.key === "Alt") return;
-if (event.target.dataset.key === "Control") return;
+    if (event.target.dataset.key === "Backspace") {
+      if (textarea.selectionStart === textarea.selectionEnd) {
+        const start = textarea.selectionEnd;
+        const val1 = textarea.value.split("").slice(start);
+        const val2 = textarea.value.split("").slice(0, start - 1);
+        const val = [...val2, ...val1].join("");
+        textarea.value = val;
+        textarea.selectionStart = start - 1;
+        textarea.selectionEnd = start - 1;
+      }
+      else {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const val1 = textarea.value.split("").slice(end);
+        const val2 = textarea.value.split("").slice(0, start);
+        const val = [...val2, ...val1].join("");
+        textarea.value = val;
+        textarea.selectionStart = start;
+        textarea.selectionEnd = start;
+      }
 
+      return;
+    }
+    if (event.target.dataset.key === "Delete") {
+      if (textarea.selectionStart === textarea.selectionEnd) {
+        const start = textarea.selectionEnd;
+        const val1 = textarea.value.split("").slice(start + 1);
+        const val2 = textarea.value.split("").slice(0, start);
+        const val = [...val2, ...val1].join("");
+        textarea.value = val;
+        textarea.selectionStart = start;
+        textarea.selectionEnd = start;
+      }
+      else {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const val1 = textarea.value.split("").slice(end);
+        const val2 = textarea.value.split("").slice(0, start);
+        const val = [...val2, ...val1].join("");
+        textarea.value = val;
+        textarea.selectionStart = start;
+        textarea.selectionEnd = start;
+      }
+
+      return;
+    }
+    if (event.target.dataset.key === "ArrowUp") {
+      const textarea = document.querySelector(".textarea");
+      const start = textarea.selectionEnd;
+      const val1 = textarea.value.split("").slice(start);
+      const val2 = textarea.value.split("").slice(0, start);
+      const val = [...val2, "▴", ...val1].join("");
+      textarea.value = val;
+      textarea.selectionStart = start + 1;
+      textarea.selectionEnd = start + 1;
+      return;
+    }
+    if (event.target.dataset.key === "ArrowDown") {
+      const textarea = document.querySelector(".textarea");
+      const start = textarea.selectionEnd;
+      const val1 = textarea.value.split("").slice(start);
+      const val2 = textarea.value.split("").slice(0, start);
+      const val = [...val2, "▾", ...val1].join("");
+      textarea.value = val;
+      textarea.selectionStart = start + 1;
+      textarea.selectionEnd = start + 1;
+      return;
+    }
+    if (event.target.dataset.key === "ArrowLeft") {
+      const textarea = document.querySelector(".textarea");
+      const start = textarea.selectionEnd;
+      const val1 = textarea.value.split("").slice(start);
+      const val2 = textarea.value.split("").slice(0, start);
+      const val = [...val2, "◂", ...val1].join("");
+      textarea.value = val;
+      textarea.selectionStart = start + 1;
+      textarea.selectionEnd = start + 1;
+      return;
+    }
+    if (event.target.dataset.key === "ArrowRight") {
+      const textarea = document.querySelector(".textarea");
+      const start = textarea.selectionEnd;
+      const val1 = textarea.value.split("").slice(start);
+      const val2 = textarea.value.split("").slice(0, start);
+      const val = [...val2, "▸", ...val1].join("");
+      textarea.value = val;
+      textarea.selectionStart = start + 1;
+      textarea.selectionEnd = start + 1;
+      return;
+    }
+    if (event.target.dataset.key === "Tab") {
+      const textarea = document.querySelector(".textarea");
+      const start = textarea.selectionEnd;
+      const val1 = textarea.value.split("").slice(start);
+      const val2 = textarea.value.split("").slice(0, start);
+      const val = [...val2, "    ", ...val1].join("");
+      textarea.value = val;
+      textarea.selectionStart = start + 4;
+      textarea.selectionEnd = start + 4;
+      return;
+    }
+    if (event.target.dataset.key === "Alt") return;
+    if (event.target.dataset.key === "Control") return;
+    if (event.target.dataset.key === "Meta") return;
+    if (event.target.dataset.key === "Enter") {
+      const textarea = document.querySelector(".textarea");
+      const start = textarea.selectionEnd;
+      const val1 = textarea.value.split("").slice(start);
+      const val2 = textarea.value.split("").slice(0, start);
+      const val = [...val2, "\n", ...val1].join("");
+      textarea.value = val;
+      textarea.selectionStart = start + 1;
+      textarea.selectionEnd = start + 1;
+      return;
+    }
 
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
