@@ -71,10 +71,80 @@ const keyCode = [
   "ArrowDown",
   "ArrowRight",
 ];
+const rukeyCode = [
+  "]",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "0",
+  "-",
+  "=",
+  "Backspace",
+  "Tab",
+  "й",
+  "ц",
+  "у",
+  "к",
+  "е",
+  "н",
+  "г",
+  "ш",
+  "щ",
+  "з",
+  "х",
+  "ъ",
+  "ё",
+  "Delete",
+  "CapsLock",
+  "ф",
+  "ы",
+  "в",
+  "а",
+  "п",
+  "р",
+  "о",
+  "л",
+  "д",
+  "ж",
+  "э",
+  "Enter",
+  "Shift",
+  "я",
+  "ч",
+  "с",
+  "м",
+  "и",
+  "т",
+  "ь",
+  "б",
+  "ю",
+  "/",
+  "Shift",
+  "Control",
+  "Alt",
+  "Meta",
+  " ",
+  "Meta",
+  "Alt",
+  "ArrowLeft",
+  "ArrowUp",
+  "ArrowDown",
+  "ArrowRight",
+];
 const textarea = document.createElement("textarea");
 textarea.classList.add("textarea");
 container.append(textarea);
-localStorage.setItem("lang", "EN");
+console.log(!localStorage.getItem("lang"));
+if (!localStorage.getItem("lang")) {
+  localStorage.setItem("lang", "EN");
+}
+
 const ruLittle = "]1234567890-=йцукенгшщзхъёфывапролджэячсмитьбю/ ";
 const ruCapital = "[!\"№%:,.;()_+ЙЦУКЕНГШЩЗХЪЁФЫВАПРОЛДЖЭЯЧСМИТЬБЮ? ";
 const ruLittleArray = ruLittle.split("");
@@ -157,9 +227,10 @@ function createButton(key) {
     arrows.append(btn);
     return;
   }
-  if (key === "q") {
+  if (key === "q"||key === "й") {
     btn.classList.add("caps-check");
   }
+
   if (key === "ArrowDown") {
     btn.classList.add("arrow-down");
     btn.innerHTML = "&#9662;";
@@ -180,8 +251,15 @@ function createButton(key) {
 
   keyboard.append(btn);
 }
-for (let i = 0; i < keyCode.length; i++) {
-  createButton(keyCode[i]);
+let array;
+if (localStorage.getItem("lang") ==="EN") {
+  array = [...keyCode]
+}
+else {
+  array = [...rukeyCode]
+}
+for (let i = 0; i < array.length; i++) {
+  createButton(array[i]);
 }
 let pressed = new Set()
 document.addEventListener("keydown", function (event) {
