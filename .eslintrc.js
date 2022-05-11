@@ -5,13 +5,15 @@ module.exports = {
     amd: true,
     node: true,
   },
-  extends: "airbnb",
+  extends: "airbnb-base",
   parserOptions: {
     ecmaVersion: "latest",
   },
   rules: {
     "linebreak-style": ["error", "unix"],
+    "no-param-reassign": 0,
+    "no-shadow": "off",
     semi: ["error", "always"],
-    quotes: ["error", "double"]
+    quotes: ["error", "double"],
   },
 };

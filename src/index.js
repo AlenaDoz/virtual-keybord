@@ -5,6 +5,16 @@ const keyboard = document.createElement("div");
 keyboard.classList.add("klava");
 const note = document.createElement("h1");
 note.classList.add("note");
+function changeLang(symbol, firstlang, secondlang) {
+  if (document.querySelector(".caps-check").dataset.key === symbol) {
+    document.querySelectorAll(".knopka").forEach((element) => {
+      if (element.dataset.key.length === 1) {
+        element.dataset.key = secondlang[firstlang.indexOf(element.dataset.key)];
+        element.innerHTML = element.dataset.key;
+      }
+    });
+  }
+}
 const keyCode = [
   "`",
   "1",
@@ -137,10 +147,9 @@ const rukeyCode = [
   "ArrowDown",
   "ArrowRight",
 ];
-const textarea = document.createElement("textarea");
-textarea.classList.add("textarea");
-container.append(textarea);
-console.log(!localStorage.getItem("lang"));
+const textareaelement = document.createElement("textarea");
+textareaelement.classList.add("textarea");
+container.append(textareaelement);
 if (!localStorage.getItem("lang")) {
   localStorage.setItem("lang", "EN");
 }
@@ -151,11 +160,10 @@ const ruLittleArray = ruLittle.split("");
 const ruCapitalArray = ruCapital.split("");
 
 const enLittle = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./ ";
-const enCapital = '~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:"ZXCVBNM<>? ';
+const enCapital = "~!@#$%^&*()_+QWERTYUIOP{}|ASDFGHJKL:\"ZXCVBNM<>? ";
 const enLittleArray = enLittle.split("");
 const enCapitalArray = enCapital.split("");
-note.innerHTML =
-  "This keyboard is created on Mac. Keyboard shortcut for switching languages is SHIFT + OPTION.";
+note.innerHTML = "This keyboard is created on Mac. Keyboard shortcut for switching languages is SHIFT + OPTION.";
 container.append(keyboard);
 container.append(note);
 
@@ -170,10 +178,8 @@ const ruCapitalLetters = ruCapitalLetter.split("");
 
 function pressShift(element, firstarray, secondarray) {
   if (firstarray.indexOf(element.dataset.key) > -1) {
-    element.innerHTML =
-      secondarray[firstarray.indexOf(element.dataset.key)];
-    element.dataset.key =
-      secondarray[firstarray.indexOf(element.dataset.key)];
+    element.innerHTML = secondarray[firstarray.indexOf(element.dataset.key)];
+    element.dataset.key = secondarray[firstarray.indexOf(element.dataset.key)];
   }
 }
 function createButton(key) {
@@ -181,10 +187,10 @@ function createButton(key) {
   btn.setAttribute("data-key", key);
   btn.classList.add("knopka");
 
-  btn.addEventListener("mousedown", function () {
+  btn.addEventListener("mousedown", () => {
     btn.classList.add("knopka-active");
   });
-  btn.addEventListener("mouseup", function () {
+  btn.addEventListener("mouseup", () => {
     btn.classList.remove("knopka-active");
   });
   btn.innerHTML = key;
@@ -253,16 +259,15 @@ function createButton(key) {
 }
 let array;
 if (localStorage.getItem("lang") === "EN") {
-  array = [...keyCode]
+  array = [...keyCode];
+} else {
+  array = [...rukeyCode];
 }
-else {
-  array = [...rukeyCode]
-}
-for (let i = 0; i < array.length; i++) {
+for (let i = 0; i < array.length; i + 1) {
   createButton(array[i]);
 }
-let pressed = new Set()
-document.addEventListener("keydown", function (event) {
+const pressed = new Set();
+document.addEventListener("keydown", (event) => {
   if (event.key === "Tab") {
     event.preventDefault();
     const textarea = document.querySelector(".textarea");
@@ -274,7 +279,6 @@ document.addEventListener("keydown", function (event) {
     textarea.selectionStart = start + 4;
     textarea.selectionEnd = start + 4;
   }
-
   if (event.key === "ArrowUp") {
     event.preventDefault();
     const textarea = document.querySelector(".textarea");
@@ -324,12 +328,12 @@ document.addEventListener("keydown", function (event) {
     pressed.add("Shift");
     document.querySelector(".shift").classList.add("shift-active");
     if (localStorage.getItem("lang") === "EN") {
-      document.querySelectorAll(".knopka").forEach(function (element) {
+      document.querySelectorAll(".knopka").forEach((element) => {
         pressShift(element, enLittleArray, enCapitalArray);
       });
     }
     if (localStorage.getItem("lang") === "RU") {
-      document.querySelectorAll(".knopka").forEach(function (element) {
+      document.querySelectorAll(".knopka").forEach((element) => {
         pressShift(element, ruLittleArray, ruCapitalArray);
       });
     }
@@ -340,12 +344,10 @@ document.addEventListener("keydown", function (event) {
     if (localStorage.getItem("lang") === "RU") {
       if (document.querySelector(".caps-check").dataset.key === "Й") {
         input = ruCapitalArray[enCapitalArray.indexOf(event.key)];
-        console.log(event.key);
         if (!input) {
           input = ruCapitalArray[enLittleArray.indexOf(event.key)];
         }
-      }
-      else {
+      } else {
         input = ruLittleArray[enLittleArray.indexOf(event.key)];
       }
     }
@@ -354,7 +356,13 @@ document.addEventListener("keydown", function (event) {
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
-    const val = [...val2, input ? input : event.key, ...val1].join("");
+    let inputValue;
+    if (input) {
+      inputValue = input;
+    } else {
+      inputValue = event.key;
+    }
+    const val = [...val2, inputValue, ...val1].join("");
     textarea.value = val;
     textarea.selectionStart = start + 1;
     textarea.selectionEnd = start + 1;
@@ -362,55 +370,39 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "CapsLock") {
     if (localStorage.getItem("lang") === "RU") {
       if (ruLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
-        document.querySelectorAll(".knopka").forEach(function (element) {
+        document.querySelectorAll(".knopka").forEach((element) => {
           if (ruLittleLetters.indexOf(element.dataset.key) > -1) {
-            element.innerHTML =
-              ruCapitalLetters[ruLittleLetters.indexOf(element.dataset.key)];
-            element.dataset.key =
-              ruCapitalLetters[ruLittleLetters.indexOf(element.dataset.key)];
+            element.innerHTML = ruCapitalLetters[ruLittleLetters.indexOf(element.dataset.key)];
+            element.dataset.key = ruCapitalLetters[ruLittleLetters.indexOf(element.dataset.key)];
           }
         });
       }
-    }
-    else {
+    } else {
+      // eslint-disable-next-line
       if (enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
-        document.querySelectorAll(".knopka").forEach(function (element) {
+        document.querySelectorAll(".knopka").forEach((element) => {
           if (enLittleLetters.indexOf(element.dataset.key) > -1) {
-            element.innerHTML =
-              enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
-            element.dataset.key =
-              enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+            element.innerHTML = enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+            element.dataset.key = enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
           }
         });
       }
     }
   }
-  document.querySelectorAll(".knopka").forEach(function (element) {
+  document.querySelectorAll(".knopka").forEach((element) => {
     if (event.key === element.dataset.key) {
       element.classList.add("knopka-active");
     }
-
   });
   if (event.key === "Alt") {
     pressed.add("Alt");
   }
   if (pressed.has("Shift") && pressed.has("Alt")) {
-    function changeLang(symbol, firstlang, secondlang) {
-      if (document.querySelector(".caps-check").dataset.key === symbol) {
-        document.querySelectorAll(".knopka").forEach(function (element) {
-          if (element.dataset.key.length === 1) {
-            element.dataset.key = secondlang[firstlang.indexOf(element.dataset.key)];
-            element.innerHTML = element.dataset.key;
-          }
-        })
-      }
-    }
     if (localStorage.getItem("lang") === "EN") {
       localStorage.setItem("lang", "RU");
       changeLang("q");
       changeLang("Q", enCapitalArray, ruLittleArray);
-    }
-    else {
+    } else {
       localStorage.setItem("lang", "EN");
       changeLang("й");
       changeLang("Й", ruCapitalArray, enLittleArray);
@@ -420,18 +412,16 @@ document.addEventListener("keydown", function (event) {
   if (document.querySelector(".shift-active")) {
     document.querySelector(".shift").classList.remove("shift-active");
   }
-
 });
-
-document.addEventListener("keyup", function (event) {
+document.addEventListener("keyup", (event) => {
   if (event.key === "Shift") {
     if (localStorage.getItem("lang") === "EN") {
-      document.querySelectorAll(".knopka").forEach(function (element) {
+      document.querySelectorAll(".knopka").forEach((element) => {
         pressShift(element, enCapitalArray, enLittleArray);
       });
     }
     if (localStorage.getItem("lang") === "RU") {
-      document.querySelectorAll(".knopka").forEach(function (element) {
+      document.querySelectorAll(".knopka").forEach((element) => {
         pressShift(element, ruCapitalArray, ruLittleArray);
       });
     }
@@ -441,22 +431,20 @@ document.addEventListener("keyup", function (event) {
     pressed.delete("Alt");
   }
   if (event.key === "CapsLock") {
-    document.querySelectorAll(".knopka").forEach(function (element) {
+    document.querySelectorAll(".knopka").forEach((element) => {
       if (enCapitalLetters.indexOf(element.dataset.key) > -1) {
-        element.innerHTML =
-          enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
-        element.dataset.key =
-          enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
+        element.innerHTML = enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
+        element.dataset.key = enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
       }
     });
   }
-  document.querySelectorAll(".knopka").forEach(function (element) {
+  document.querySelectorAll(".knopka").forEach((element) => {
     if (event.key === element.dataset.key) {
       element.classList.remove("knopka-active");
     }
   });
 });
-document.querySelector(".klava").addEventListener("click", function (event) {
+document.querySelector(".klava").addEventListener("click", (event) => {
   const textarea = document.querySelector(".textarea");
   if (event.target.classList.contains("knopka")) {
     textarea.focus();
@@ -465,12 +453,12 @@ document.querySelector(".klava").addEventListener("click", function (event) {
       if (!event.target.classList.contains("shift-active")) {
         event.target.classList.add("shift-active");
 
-        document.querySelectorAll(".knopka").forEach(function (element) {
+        document.querySelectorAll(".knopka").forEach((element) => {
           pressShift(element, enLittleArray, enCapitalArray);
         });
       } else {
         document.querySelector(".shift").classList.remove("shift-active");
-        document.querySelectorAll(".knopka").forEach(function (element) {
+        document.querySelectorAll(".knopka").forEach((element) => {
           pressShift(element, enCapitalArray, enLittleArray);
         });
       }
@@ -479,22 +467,18 @@ document.querySelector(".klava").addEventListener("click", function (event) {
     if (event.target.dataset.key === "CapsLock") {
       if (enLittleLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
         event.target.classList.add("knopka-active");
-        document.querySelectorAll(".knopka").forEach(function (element) {
+        document.querySelectorAll(".knopka").forEach((element) => {
           if (enLittleLetters.indexOf(element.dataset.key) > -1) {
-            element.innerHTML =
-              enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
-            element.dataset.key =
-              enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+            element.innerHTML = enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
+            element.dataset.key = enCapitalLetters[enLittleLetters.indexOf(element.dataset.key)];
           }
         });
       } else if (enCapitalLetters.indexOf(document.querySelector(".caps-check").innerHTML) > -1) {
         event.target.classList.remove("knopka-active");
-        document.querySelectorAll(".knopka").forEach(function (element) {
+        document.querySelectorAll(".knopka").forEach((element) => {
           if (enCapitalLetters.indexOf(element.dataset.key) > -1) {
-            element.innerHTML =
-              enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
-            element.dataset.key =
-              enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
+            element.innerHTML = enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
+            element.dataset.key = enLittleLetters[enCapitalLetters.indexOf(element.dataset.key)];
           }
         });
       }
@@ -509,8 +493,7 @@ document.querySelector(".klava").addEventListener("click", function (event) {
         textarea.value = val;
         textarea.selectionStart = start - 1;
         textarea.selectionEnd = start - 1;
-      }
-      else {
+      } else {
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
         const val1 = textarea.value.split("").slice(end);
@@ -532,8 +515,7 @@ document.querySelector(".klava").addEventListener("click", function (event) {
         textarea.value = val;
         textarea.selectionStart = start;
         textarea.selectionEnd = start;
-      }
-      else {
+      } else {
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
         const val1 = textarea.value.split("").slice(end);
@@ -602,8 +584,6 @@ document.querySelector(".klava").addEventListener("click", function (event) {
     }
     if (event.target.dataset.key === "Alt") return;
     if (event.target.dataset.key === "Control") return;
-
-
     const start = textarea.selectionEnd;
     const val1 = textarea.value.split("").slice(start);
     const val2 = textarea.value.split("").slice(0, start);
@@ -613,12 +593,10 @@ document.querySelector(".klava").addEventListener("click", function (event) {
     textarea.selectionEnd = start + 1;
     if (document.querySelector(".shift-active")) {
       document.querySelector(".shift").classList.remove("shift-active");
-      document.querySelectorAll(".knopka").forEach(function (element) {
+      document.querySelectorAll(".knopka").forEach((element) => {
         if (enCapitalArray.indexOf(element.dataset.key) > -1) {
-          element.innerHTML =
-            enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
-          element.dataset.key =
-            enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+          element.innerHTML = enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
+          element.dataset.key = enLittleArray[enCapitalArray.indexOf(element.dataset.key)];
         }
       });
     }
