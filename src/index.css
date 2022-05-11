@@ -1,0 +1,90 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  align-items: center;
+}
+.note {
+  color:  #9f9fad;
+  font-size: 20px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.klava {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 5px;
+  flex-wrap: wrap;
+  background-color: #ebd8d0;
+  width: 800px;
+  height: 300px;
+}
+
+.knopka {
+  width: 45px;
+  height: 45px;
+  color:  #0b0014;
+  background-color: #fff7f8;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  transition: all 0.5s ease-out;
+}
+.knopka-active,
+.shift-active {
+  background-color:#f5ff90;
+  color: #9f9fad;
+}
+
+.backspace {
+  width: 120px;
+}
+.tab,
+.delete {
+  width: 60px;
+}
+.capslock,
+.enter {
+  width: 100px;
+}
+
+.shift {
+  width: 125px;
+}
+.space {
+  width: 300px;
+}
+.arrow-up,
+.arrow-down {
+  height: 20px;
+}
+.arrows {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.control,
+.command {
+  width: 75px;
+}
+
+.textarea {
+  height: 150px;
+  width: 500px;
+  border-radius: 0px;
+  border: 1px solid #9f9fad;
+  border-color: #9f9fad;
+  background-color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-family: italic;
+  outline: none;
+  resize: none;
+}
